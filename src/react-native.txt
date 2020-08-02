@@ -1,0 +1,385 @@
+text-show text to user .any text placed outside of a text will result in a error
+view-general purpose element used for grouping other element or styling
+image-show an image
+button-show a button the user can press . gives us some feedback whenever the user presses it
+
+inline style = {{fontSize:30}}
+
+rule of jsx=>>>>>>.......
+we can assemble diffrent jsx element like normal html
+we configure diffrent jsx element using props 
+we can refer to js variable inside of a jsx block by using curly braces
+we can assign jsx element to a variable then show that variable inside of jsx block
+
+const ComponentScreen=()=>{
+    
+    const name = 'krishna'  
+    const name = use jsx (<text>this is jsx</text>) 
+
+    
+    return (
+        <View> 
+            <Text style={style.textStyle}>getting start with react native </Text>
+            <Text style={style.subHeader}> my name is {name}(yaha hum object pass nhi kr sakte hai) </Text>
+         </View>
+    )
+}
+ 
+
+List===>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+flatlist -> turns an array into list of element
+flatlist ->is better in RN 
+<FlatList data ='' renderItem ='' keyExtractor='' />
+
+   <FlatList  data={friends} renderItem={(element)=>{
+       element === {item:{name:'friend #1'},index:0} (hum object ko jsx me pass nhi kr sakte hai)
+       use this way ==>
+             renderItem={({item}) =>{
+                item==={name:'friend #1'}
+             }}
+   }}/>
+
+style = marginVertical
+
+flatlist=>>>>>>>>
+<FlatList horizontal={true}  showsHorizontalScrollIndicator={false} data={friends} keyExtractor={friend=>friend.name} renderItem={({item})=>{
+             return <Text style={style.textStyle}> {item.name} </Text>
+         }}/>
+
+
+Button=>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+     button=> very simple component for showing a button and detecting a press 
+     touchableOpacity=>highly customizable component that can detect a press on just about any kind of element
+     
+
+1) createStackNavigator -> props -> props.navigation.navigate('where go')
+
+
+props->system to pass data from a parent to a child
+State->system to track a piece of data that will change over time.if that data changes ,our app will rerender 
+
+
+
+Reducer => this is fancy name 
+1)function that gets called with two objects
+2)argument#1 - object that has all of our state in it 
+3)argument#2 -  object that describes that the update we want to make 
+4)we look at argument #2 and use it to decide how  to change argument#1 
+5)two technicalities -(1) we have never change argument#1 directly.
+                      (2) we must always return a value to used as argument#1]
+
+
+//////////./././././.Reducer././././////////////////////////////////////////
+
+const reducer = (state,action)=>{
+     //ye decide karo rought me likh ke
+    //state==={count:number}
+    //action==={type:'pulse' || 'minus',payload:1}
+         
+         switch (action.type) {
+             case 'pulse':
+                return {...state,count:state.count + 1}
+                  
+             case 'minus':
+                 return {...state ,count:state.count - 1}
+             default:
+               return  state;
+         } 
+}
+ 
+
+const CounterScreen = ()=>{
+
+//  const [ Counter , setCounter] = useState(0);
+const [state , dispatch] = useReducer(reducer,{count:0})
+ 
+
+
+dispatch({type:'pulse'})
+dispatch({type:'minus'})
+
+
+input---------=-=-=-===-=-=-=--
+<textinput></textinput>
+android me jaisa lekhta hai waisa input hota hai 
+aur iphone me first letter captiale hota hai 
+
+{value:currenttext,
+onChangetexta:()=>}
+
+
+layout system=>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+box object model =>the height/width of an element + the space around it ->use this to a affect the positioning of a single element 
+Flex box => how some number of sibling elements get laid out inside a parent ->use this to position mulitple element with a comman parent 
+position=>how a single element gets laid out inside of a parent ->use this to override box object model + flex box 
+
+box object model=>'content and padding' sections show background color,border and margin do not 
+                margin=>set the margin on all sides 
+                marginvertical=>set the margin on top and bottom 
+                marginhorizontal=>set the margin on left and right
+                padding =>set the padding on all sides 
+                paddingvertical=>set the padding on left and right 
+                paddinghorizontal=>set the padding on left and right 
+                border width =>set border width on all sides 
+
+flex-box:=> <view>
+            <text>child 1</text>
+            <text>child 2</text>
+            <text>child 3</text>
+            </view>
+           
+           note: this properties in parent 
+            alignitems:'stretch' (default)
+            alignitems:'flex-start'
+            alignitems:'enter'
+            alignitems:'flex-start'
+            alignitems:'flex-end'
+
+flex-direction:=> flexDirection:'column' (default) (on parent)
+                  flexDirection:'row'
+justify:=>  justifyContent:'flex-start'(default) (horizontal)
+            justifycontent:'center'
+            justifycontent:'flex-end'
+            justifyContent:'space-between'
+            justifyContent:'space-around'
+
+flex value:=>
+             1)parent:alignitems,justifyContent,flexDirection and 
+             2)child: flex,alignself
+            child:=>flex:1(jitna space hota hai sb es ko mil jata hai)(10 unit hota hai)
+            child:=>alignself:'center/flex-end/flex-start/'
+
+position:=>
+          1)position:'absolute'=> ignored by sibling(like content).still obeys some flex box rules by parent
+               Note: es ki jagah use:(...StyleSheet.absoluteFillObject)
+               position:'absolute' (fill element hole box)
+                top:px
+                bottom:px
+                left:px
+                right:px 
+          2)position:'relative'=>(default in parent)
+            top:px
+            bottom:px
+            left:px
+            right:px
+
+apply box object model rules:=>-->is position 'absolute'
+                                  if Yes => 
+                                         apply some flex box rules ,ignore all sibling
+                                         apply top,bottom ,left ,right
+
+                                   if No =>
+                                           apply all rules box rules ,considering 
+                                           sibling
+                                           ||
+                                           \/
+                                        placement element inside parent 
+                                           ||
+                                           \/
+                                        apply top,left ,right,bottom
+
+
+project build ==>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+expo-cli =>>>>>>>>>> adds in ton of default config to use feature comman in apps , like icons 
+                     ,video,better camera use ,etc 
+
+react-native-cli=>>>> default cli to genrate a project .requires a lot of extra work to add in 
+                      in comman feature
+
+npx expo-cli init food (npx expo-cli init name_project)
+                      
+
+
+Note:==> Drawer navigator and bottomTabNavigator and stackNavigator
+  setup-:
+         Installation
+
+1. Install React Navigation 
+
+npm install react-navigation
+
+2. Install Dependencies
+
+expo install react-native-gesture-handler react-native-reanimated react-native-screens react-native-safe-area-context @react-native-community/masked-view
+
+3. Install React Navigation Stack
+
+npm install react-navigation-stack @react-native-community/masked-view
+
+4. Start the app and clear cache with npm start -c
+
+Errors?
+If you are still seeing errors and complaints about packages, do the following:
+
+1. rm -r node_modules
+
+2. rm package-lock.json
+
+3. expo upgrade
+
+4. npm start -c
+
+Update Imports
+Our imports in the upcoming lecture will now look like this:
+
+import { createAppContainer } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation-stack';  
+
+
+Note:=>https://github.com/expo/vector-icons (vector images)
+
+///././.././././.././/././././././///////////////////////////////////
+
+fetch ---> 
+          1)build in function for making network requests
+          2)error handling is a bit weird 
+          3)requires us to write a lot of wrapper code to make it work 'sensibly' 
+
+Axios---->(npm install axios) if any error (npm cache clean --force)
+          1)separate library for making requests
+          2)easy to use, sensible defaults
+          3)increases our app size (very ,very slightly)
+
+
+import axios from 'axios'
+
+
+export default axios.create({
+    baseURL:'https://api.yelp.com/v3/businesses',
+    headers:{
+
+        Authorization:'Bearer(same) (space) M0VBCa9JfKMevT92NkP3RdcIsX6FzDtX9_3TG3EGxXASn9Nq44RMUjK-T7IdJNWFUofSfVJHsucs-o-Tkz4TeOdjwGQyhDnw4sRyMISCkV45_scyNWs6LB5QXCXwXnYx(api key)'
+    }
+})
+
+
+
+  >?>?>>?>>?>??>?>?>?>?>???>?>?>?>flow in searchScreen Component ./../././././././././>?>?>?>?>>?
+                  1)searchScreen function called
+                  2)nothing visible on screen
+                  3)user enters a search term, submits it ,requests to yelp made 
+                  4)get search result ,call setter 
+                  5)update state causes component to render 
+                  6)now we have something to show to the user!
+
+ ?<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<useState>????????????????????????????????????
+ useState(()=>{}) =====> run the arrow function every time the component is render 
+ useState(()=>{},[]) ====> run the arrow function only when the component is first render
+ useState(()=>{},[value]) ===> run the arrow function only when is first rendered , and when the 'value ' changes 
+
+
+>??>??>??????????????????????????useEffect./../..//../.......................//////////////////                  
+                  useEffect(function)
+                  useEffect(function,array)
+yes : by default , it runs both after the render and after every update
+                                                         
+
+
+Note:=====> <View style={{flex:1}}> 
+            <SearchBar term={term}  onTermChange = {setTerm} onTermSubmit={searchApi} />
+            <Text style={style.text}>Search Screen</Text>
+            { term  ?  <Text>Search {term}</Text> : null }    
+            <Text> we have found {results.length} result</Text>
+            <ScrollView >
+            <ResultsList  results={filterResultsByPrice('$')} title="Cost Effective"/>
+            <ResultsList results={filterResultsByPrice('$$')} title="Bit Pricier"/>
+            <ResultsList results={filterResultsByPrice('$')} title="Big Spender"/>
+            <ResultsList results={filterResultsByPrice('$$')} title="Big Spender"/> 
+            </ScrollView>
+            </View>
+       (es case me ScrollView view kam nhi kr raha tha phir hum ne flex:1 lagay hai )
+
+
+
+
+               
+./.././//./././././.././...//withnavigation.//./..//././///././/././././././
+         import   {withNavigation}  from 'react-navigation'         
+         const ResultsList =({ title ,results,navigation })=>{    
+                    return ( <TouchableOpacity onPress={()=>navigation.navigate('ResultsShow')}>
+                            <ResultsDetails  result={item}/> 
+                            </TouchableOpacity>)
+                )
+            }
+          export default withNavigation(ResultsList);
+         Note:- kisi bhi screen ko direct navigate kiya ja sakte hai (app ki help se)
+
+
+>?>?>?>?>???????????????????????????props vs Context ./././/./.././././.././
+props-->(1)communicates information from a parent directly down to a child 
+        (2)easy to setup 
+        (3)to communicates data down mulitple layers ,we have to  write a lot of code 
+
+Context-->(1)moves information from a parent  to some nested child 
+          (2)complicated to setup , lots of special terms 
+          (3)easy to communicates data from a parent to a super nested child
+
+explation=====.=.=..=>>>>>>>>>>>>>>>>>>>>>>+>++++++>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+import React from 'react'
+
+const BlogContext =React.createContext();
+export const BlogProvider  = ({ children })=>{
+    return <BlogContext.Provider value={12}(yaha jo value dalte hai wo other component me render hote hai)> 
+                { children } (yaha wali value app.js me render hote hai)
+            </BlogContext.Provider>
+}
+export default BlogContext;
+   ././/.//./././//./. use context ======>
+   const { data , addBlogPost,delBlogPost(variable name like BlogContext)} = useContext(BlogContext);
+
+.?>?>?>?>?>?????????????????????????>Header me kuch krna ho to>?>?>?>>?>>?>?>?>?>>?>???>?>?>>
+IndexScreen.navigationOptions = ({navigation})=>{
+  return {
+    headerRight: () => <TouchableOpacity onPress={()=>navigation.navigate('Create')}> 
+      <F name="plus" size={30} color="black"/> 
+      </TouchableOpacity>
+  }
+}
+
+
+
+
+13 Data Api Sync ======.==.=.=//=/=//=/=//=/==/=//=//===/=====//////
+ npmjs.com/package/json-server
+ ngrok server 
+ db.json (create file)
+ package.json (add below line in this file)
+ "scripts": {
+    "db":"json-server -w db.json",
+    "tunnel":"ngrok http 3000"
+  }
+
+method              route                                   result 
+get           http://2490018e1ce4.ngrok.io              retrieve all stored blog posts 
+get           /blogposts/{id}                           get blog post with particular id 
+post          /blogposts                                create a new blog post 
+put           /blogposts/{id}                           update blog post with given id 
+delete        /blogpost/{id}                            delete blog post with given id 
+
+///////////////current flow ///////////////////////////////////////////
+ ||  IndexScreen get display by react navigation
+ ||  IndexScreen  looks at context object to get the current list of blog posts 
+ ||  IndexScreen render list of blogposts
+ \/  done 
+
+ ////////////////new follow ///////////////////////////////////////////
+ |   IndexScreen gets display by react navigation
+ |  IndexScreen needs to all a function that will make a request to the json server 
+ |   for the current list of posts 
+ |   IndexScreen recives list of current blog posts (probably empty!)
+ |       time passes....
+ |   request complete list of blog posts gets stored through our useReducer hook 
+ \/   state change render whole app IndexScreen get new list of posts    
+
+ 
+
+ track-server >?>?>?>????????????????????>?>?>?>?>?>?>?>?>?>?>>?>>??>?>?>?>
+
+ npm init -y 
+ npm cache clean --force
+ setup mongodb->>>>>>>>>>>
+ https://cloud.mongodb.com/ sign in  >>build cluster >>create cluster >> connect >>add ip address 
+ >>username and password(not a sign in password)
+ nodemon =>start automatic server if any change in files
+ const token = authorization.replace('Bearer ', ''); es line me hamesa Bearer ki bad space hota hai nhi to error hoga
